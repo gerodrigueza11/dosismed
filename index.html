@@ -116,17 +116,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="theme-color" content="#007bff">
 <body>
-	<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('Service Worker registrado con éxito:', registration);
-      })
-      .catch((error) => {
-        console.log('Error al registrar el Service Worker:', error);
-      });
-  }
-	</script>
 
 <div class="title">Dosis Medicamentos por Gabriel Rodriguez</div>
 
@@ -345,6 +334,18 @@
 
     document.getElementById('defaultOpen').click();
     buildIndex();
+</script>
+
+script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('Service Worker registrado con éxito:', registration);
+      })
+      .catch((error) => {
+        console.log('Error al registrar el Service Worker:', error);
+      });
+  }
 </script>
 
 </body>
