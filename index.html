@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Dosis de Medicamentos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #17191a; /* Color base */
+            color: #ffffff; /* Texto en blanco */
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #a8d5e2; /* Color pastel para el título */
+            margin-bottom: 20px;
+        }
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            background-color: #242627; /* Color de las pestañas */
+            border-bottom: 1px solid #333;
+            border-radius: 10px 10px 0 0; /* Bordes redondeados */
+        }
+        .tab {
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+            color: #a8d5e2; /* Color pastel para el texto de las pestañas */
+            border-radius: 10px; /* Bordes redondeados */
+        }
+        .tab button:hover {
+            background-color: #333; /* Color al pasar el mouse */
+        }
+        .tab button.active {
+            background-color: #444; /* Color cuando está activo */
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #333;
+            border-top: none;
+            background-color: #242627; /* Color del contenido */
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+            margin-top: 20px;
+            color: #ffffff; /* Texto en blanco */
+            border-radius: 0 0 10px 10px; /* Bordes redondeados */
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        #searchBox {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 10px; /* Bordes redondeados */
+            margin-bottom: 20px;
+            background-color: #242627; /* Color del cuadro de búsqueda */
+            color: #a8d5e2; /* Color pastel para el texto del cuadro de búsqueda */
+        }
+        #results {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .drug-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 10px; /* Bordes redondeados */
+            background-color: #242627; /* Color del fondo de los resultados */
+            color: #ffffff; /* Texto en blanco */
+        }
+        .subclassification {
+            margin-left: 20px;
+        }
+        .drug-link {
+            cursor: pointer;
+            color: #a8d5e2; /* Color pastel para los enlaces */
+            text-decoration: underline;
+        }
+        .drug-link:hover {
+            color: #ffb6c1; /* Color pastel al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+	<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('Service Worker registrado con éxito:', registration);
+      })
+      .catch((error) => {
+        console.log('Error al registrar el Service Worker:', error);
+      });
+  }
+</script>
+
+<div class="title">Dosis Medicamentos por Gabriel Rodriguez</div>
+
+<div class="tabs-container">
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Search')" id="defaultOpen">Buscar Medicamento</button>
+        <button class="tablinks" onclick="openTab(event, 'Classification')">Clasificación</button>
+        <button class="tablinks" onclick="openTab(event, 'DrugDetails')" style="display:none;">Detalles del Medicamento</button>
+    </div>
+</div>
+
+<div id="Search" class="tabcontent">
+    <div class="search-container">
+        <input type="text" id="searchBox" placeholder="Buscar medicamento..." oninput="searchDrug()">
+        <div id="results"></div>
+    </div>
+</div>
+
+<div id="Classification" class="tabcontent">
+    <h3>Clasificación de Medicamentos</h3>
+    <ul id="drugIndex"></ul>
+</div>
+
+<div id="DrugDetails" class="tabcontent">
+    <h3 id="drugDetailsTitle">Detalles del Medicamento</h3>
+    <div id="drugDetailsContent"></div>
+</div>
+
+<script>
+    const drugs = [
+		{
+			name: "Amoxicilina + Ácido Clavulánico",
+			classification: "Antibióticos",
+			subclassification: "Penicilinas",
+			doseAdult: "500/125 mg c/8 horas",
+			dosePediatric: "25-45 mg/Kg/Día dividido en 2-3 dosis",
+			presentation: "Tabletas 500/125 mg, Suspensión oral 250/62.5 mg/5 ml",
+			uses: "Infecciones bacterianas resistentes a la amoxicilina sola"
+		},
+        {
+            name: "Penicilina G Cristalina",
+            classification: "Antibióticos",
+            subclassification: "Penicilinas",
+            doseAdult: "100,000-250,000 UI/Kg/Día (IV)",
+            dosePediatric: "100,000-250,000 UI/Kg/Día (IV)",
+            presentation: "Polvo liofilizado para inyección",
+            uses: "Infecciones bacterianas sensibles a penicilina"
+        },
+        {
+            name: "Ciprofloxacina",
+            classification: "Antibióticos",
+            subclassification: "Fluoroquinolonas",
+            doseAdult: "3 gotas en el CAE afectado c/12 horas por 7 días",
+            dosePediatric: "Niños >6 años: 3 gotas en el CAE afectado c/12 horas por 7 días",
+            presentation: "Solución ótica 3mg/5ml (Quinotic)",
+            uses: "Infecciones del oído externo"
+        },
+        {
+            name: "Amoxicilina",
+            classification: "Antibióticos",
+            subclassification: "Penicilinas",
+            doseAdult: "500 mg c/8 horas",
+            dosePediatric: "20-40 mg/Kg/Día dividido en 3 dosis",
+            presentation: "Tabletas 500 mg, Suspensión oral 250 mg/5 ml",
+            uses: "Infecciones respiratorias, urinarias y de piel"
+        },
+        {
+            name: "Paracetamol",
+            classification: "Analgésicos/Antipiréticos",
+            doseAdult: "500-1000 mg c/6-8 horas",
+            dosePediatric: "10-15 mg/Kg/Dosis c/6-8 horas",
+            presentation: "Tabletas 500 mg, Jarabe 120 mg/5 ml",
+            uses: "Dolor y fiebre"
+        },
+        {
+            name: "Ibuprofeno",
+            classification: "Antiinflamatorios no esteroideos (AINE)",
+            doseAdult: "400-600 mg c/8 horas",
+            dosePediatric: "5-10 mg/Kg/Dosis c/8 horas",
+            presentation: "Tabletas 400 mg, Suspensión oral 100 mg/5 ml",
+            uses: "Dolor, inflamación y fiebre"
+        },
+        {
+            name: "Omeprazol",
+            classification: "Inhibidores de la bomba de protones",
+            doseAdult: "20-40 mg/día",
+            dosePediatric: "0.7-3.3 mg/Kg/Día",
+            presentation: "Cápsulas 20 mg, 40 mg",
+            uses: "Tratamiento de úlceras gástricas, reflujo gastroesofágico"
+        },
+        {
+            name: "Loratadina",
+            classification: "Antihistamínicos",
+            doseAdult: "10 mg/día",
+            dosePediatric: "5 mg/día (2-12 años)",
+            presentation: "Tabletas 10 mg, Jarabe 5 mg/5 ml",
+            uses: "Alergias, rinitis alérgica"
+        },
+        {
+            name: "Metformina",
+            classification: "Antidiabéticos orales",
+            doseAdult: "500-1000 mg c/12 horas",
+            dosePediatric: "No recomendado en niños",
+            presentation: "Tabletas 500 mg, 850 mg, 1000 mg",
+            uses: "Diabetes tipo 2"
+        },
+        {
+            name: "Atorvastatina",
+            classification: "Estatinas (hipolipemiantes)",
+            doseAdult: "10-80 mg/día",
+            dosePediatric: "No recomendado en niños",
+            presentation: "Tabletas 10 mg, 20 mg, 40 mg, 80 mg",
+            uses: "Reducción del colesterol"
+        },
+        {
+            name: "Diazepam",
+            classification: "Ansiolíticos (benzodiazepinas)",
+            doseAdult: "2-10 mg c/6-12 horas",
+            dosePediatric: "0.1-0.3 mg/Kg/Dosis",
+            presentation: "Tabletas 5 mg, 10 mg, Solución inyectable",
+            uses: "Ansiedad, relajación muscular"
+        }
+    ];
+
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    function searchDrug() {
+        const input = document.getElementById('searchBox').value.toLowerCase();
+        const resultsDiv = document.getElementById('results');
+        if (input.trim() === "") {
+            resultsDiv.innerHTML = ""; // Oculta los resultados si no hay texto
+            return;
+        }
+        const results = drugs.filter(drug => drug.name.toLowerCase().includes(input));
+        resultsDiv.innerHTML = results.map(drug => `
+            <div class="drug-info">
+                <p><strong>${drug.name}</strong></p>
+                <p><strong>Clasificación:</strong> ${drug.classification}</p>
+                ${drug.subclassification ? `<p><strong>Subclasificación:</strong> ${drug.subclassification}</p>` : ''}
+                <p><strong>Dosis Adulto:</strong> ${drug.doseAdult}</p>
+                <p><strong>Dosis Pediátrica:</strong> ${drug.dosePediatric}</p>
+                <p><strong>Presentación:</strong> ${drug.presentation}</p>
+                <p><strong>Usos:</strong> ${drug.uses}</p>
+            </div>
+        `).join('');
+    }
+
+    function showDrugDetails(drugName) {
+        const drug = drugs.find(drug => drug.name === drugName);
+        if (drug) {
+            document.getElementById('drugDetailsTitle').textContent = drug.name;
+            document.getElementById('drugDetailsContent').innerHTML = `
+                <p><strong>Clasificación:</strong> ${drug.classification}</p>
+                ${drug.subclassification ? `<p><strong>Subclasificación:</strong> ${drug.subclassification}</p>` : ''}
+                <p><strong>Dosis Adulto:</strong> ${drug.doseAdult}</p>
+                <p><strong>Dosis Pediátrica:</strong> ${drug.dosePediatric}</p>
+                <p><strong>Presentación:</strong> ${drug.presentation}</p>
+                <p><strong>Usos:</strong> ${drug.uses}</p>
+            `;
+            openTab(null, 'DrugDetails');
+        }
+    }
+
+    function buildIndex() {
+        const index = {};
+        drugs.forEach(drug => {
+            if (!index[drug.classification]) {
+                index[drug.classification] = {};
+            }
+            if (drug.subclassification) {
+                if (!index[drug.classification][drug.subclassification]) {
+                    index[drug.classification][drug.subclassification] = [];
+                }
+                index[drug.classification][drug.subclassification].push(drug);
+            } else {
+                if (!index[drug.classification].general) {
+                    index[drug.classification].general = [];
+                }
+                index[drug.classification].general.push(drug);
+            }
+        });
+
+        const indexUl = document.getElementById('drugIndex');
+        for (const [classification, subcategories] of Object.entries(index)) {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${classification}</strong>`;
+            const ul = document.createElement('ul');
+            for (const [subclassification, drugsList] of Object.entries(subcategories)) {
+                const subLi = document.createElement('li');
+                subLi.innerHTML = `<strong>${subclassification === 'general' ? 'General' : subclassification}</strong>`;
+                const subUl = document.createElement('ul');
+                drugsList.forEach(drug => {
+                    const drugLi = document.createElement('li');
+                    drugLi.innerHTML = `<span class="drug-link" onclick="showDrugDetails('${drug.name}')">${drug.name} - ${drug.doseAdult}</span>`;
+                    subUl.appendChild(drugLi);
+                });
+                subLi.appendChild(subUl);
+                ul.appendChild(subLi);
+            }
+            li.appendChild(ul);
+            indexUl.appendChild(li);
+        }
+    }
+
+    document.getElementById('defaultOpen').click();
+    buildIndex();
+</script>
+
+</body>
+</html>
