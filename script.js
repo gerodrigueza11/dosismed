@@ -6,7 +6,7 @@ window.addEventListener('beforeinstallprompt', (event) => {
     // Guarda el evento para usarlo más tarde
     deferredPrompt = event;
     // Habilita el botón de instalación
-    document.getElementById('installButton').disabled = false;
+    document.getElementById('installButton').disabled = true;
 });
 
 document.getElementById('installButton').addEventListener('click', () => {
