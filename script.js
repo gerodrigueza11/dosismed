@@ -31,4 +31,4 @@ document.getElementById('installButton').addEventListener('click', () => {
 });
 
 // Deshabilita el botón al cargar la página
-document.getElementById('installButton').disabled = false;
+document.getElementById('installButton').disabled = true;
