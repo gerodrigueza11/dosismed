@@ -2,4 +2,8 @@
     width: 10vw; /* 20% del ancho de la pantalla */
     max-width: 100px; /* Tamaño máximo */
     height: auto;
+},
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px
 }
