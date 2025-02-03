@@ -2,7 +2,7 @@
   "name": "Buscador de Dosis de Medicamentos",
   "short_name": "DosisMed",
   "description": "Aplicación para buscar dosis de medicamentos.",
-  "start_url": "/",
+  "start_url": "/dosismed",
   "display": "standalone",
   "background_color": "#17191a",
   "theme_color": "#a8d5e2",
