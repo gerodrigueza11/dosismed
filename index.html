@@ -119,6 +119,8 @@
 
 <div class="title">Dosis Medicamentos por Gabriel Rodriguez</div>
 
+<button id="installButton" style="display: none;">Instalar App</button>
+
 <div class="tabs-container">
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Search')" id="defaultOpen">Buscar Medicamento</button>
@@ -143,6 +145,8 @@
     <h3 id="drugDetailsTitle">Detalles del Medicamento</h3>
     <div id="drugDetailsContent"></div>
 </div>
+	
+<script src="/script.js"></script>
 
 <script>
     const drugs = [
@@ -237,15 +241,7 @@
             dosePediatric: "0.1-0.3 mg/Kg/Dosis",
             presentation: "Tabletas 5 mg, 10 mg, Solución inyectable",
             uses: "Ansiedad, relajación muscular"
-        }, 
-	    {
-            name: "Acetaminofen",
-            classification: "Analgésicos/Antipiréticos",
-            doseAdult: "500-650 mg c/6-8 horas",
-            dosePediatric: "10-15 mg/Kg/Dosis",
-            presentation: "Tabletas 500 mg, 650 mg",
-            uses: "Fiebre"
-	    }
+        }
     ];
 
     function openTab(evt, tabName) {
