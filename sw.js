@@ -5,8 +5,6 @@ const CACHE_NAME = 'dosis-medicamentos-v1';
 const ASSETS_TO_CACHE = [
   '/', // Página principal
   '/index.html', // Archivo HTML principal
-  '/styles.css', // Archivo CSS (si lo tienes separado)
-  '/script.js', // Archivo JavaScript (si lo tienes separado)
   '/ico-192x192.png', // Ícono de 192x192
   '/ico-512x512.png', // Ícono de 512x512
 ];
