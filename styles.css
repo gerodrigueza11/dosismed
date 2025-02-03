@@ -9,13 +9,13 @@ body {
             height: 100vh;
             background-color: #17191a; /* Color base */
             color: #ffffff; /* Texto en blanco */
-}
+},
 .title {
             font-size: 24px;
             font-weight: bold;
             color: #a8d5e2; /* Color pastel para el título */
             margin-bottom: 20px;
-}
+},
 .tabs-container {
             display: flex;
             justify-content: center;
@@ -23,14 +23,14 @@ body {
             background-color: #242627; /* Color de las pestañas */
             border-bottom: 1px solid #333;
             border-radius: 10px 10px 0 0; /* Bordes redondeados */
-}
+},
 .tab {
             overflow: hidden;
             display: flex;
             justify-content: center;
             width: 100%;
             max-width: 800px;
-}
+},
 .tab button {
             background-color: inherit;
             border: none;
@@ -41,13 +41,13 @@ body {
             font-size: 16px;
             color: #a8d5e2; /* Color pastel para el texto de las pestañas */
             border-radius: 10px; /* Bordes redondeados */
-}
+},
 .tab button:hover {
             background-color: #333; /* Color al pasar el mouse */
-}
+},
 .tab button.active {
             background-color: #444; /* Color cuando está activo */
-}
+},
 .tabcontent {
             display: none;
             padding: 20px;
@@ -60,14 +60,14 @@ body {
             margin-top: 20px;
             color: #ffffff; /* Texto en blanco */
             border-radius: 0 0 10px 10px; /* Bordes redondeados */
-}
+},
 .search-container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             width: 100%;
-}
+},
 #searchBox {
             width: 100%;
             max-width: 400px;
@@ -78,12 +78,12 @@ body {
             margin-bottom: 20px;
             background-color: #242627; /* Color del cuadro de búsqueda */
             color: #a8d5e2; /* Color pastel para el texto del cuadro de búsqueda */
-}
+},
 #results {
             margin-top: 20px;
             width: 100%;
             max-width: 600px;
-}
+},
 .drug-info {
             margin-bottom: 20px;
             padding: 15px;
@@ -91,15 +91,15 @@ body {
             border-radius: 10px; /* Bordes redondeados */
             background-color: #242627; /* Color del fondo de los resultados */
             color: #ffffff; /* Texto en blanco */
-}
+},
 .subclassification {
             margin-left: 20px;
-}
+},
 .drug-link {
             cursor: pointer;
             color: #a8d5e2; /* Color pastel para los enlaces */
             text-decoration: underline;
-}
+},
 .drug-link:hover {
             color: #ffb6c1; /* Color pastel al pasar el mouse */
 }
