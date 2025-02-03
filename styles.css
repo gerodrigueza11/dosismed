@@ -1,5 +1,11 @@
+.logo-container {
+    text-align: center; /* Centra la imagen horizontalmente */
+    margin-bottom: 20px; /* Espacio entre la imagen y el texto */
+}
+
 .logo {
-    width: 10vw; /* 20% del ancho de la pantalla */
-    max-width: 100px; /* Tamaño máximo */
-    height: auto;
+    width: 100px; /* Ancho de la imagen */
+    height: auto; /* Altura automática para mantener la proporción */
+    border-radius: 50%; /* Opcional: Hace la imagen redonda */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Opcional: Añade una sombra */
 }
