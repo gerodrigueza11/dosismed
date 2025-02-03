@@ -1,1 +1,5 @@
-
+.logo {
+    width: 20vw; /* 20% del ancho de la pantalla */
+    max-width: 150px; /* Tamaño máximo */
+    height: auto;
+}
