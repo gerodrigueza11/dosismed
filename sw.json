@@ -1,4 +1,3 @@
-// Nombre del cache
 const CACHE_NAME = 'dosis-medicamentos-v1';
 
 // Lista de recursos para cachear
